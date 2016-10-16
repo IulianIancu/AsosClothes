@@ -51,6 +51,10 @@ public class Main extends AppCompatActivity
         Menu menu = navigationView.getMenu();
         menu.clear();
         menu.add("Nothing");
+        ContentFragment fragment = new ContentFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame,fragment);
+        fragmentTransaction.commit();
         navigationView.setNavigationItemSelectedListener(this);
     }
 
