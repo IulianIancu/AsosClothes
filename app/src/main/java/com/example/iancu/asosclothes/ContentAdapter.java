@@ -1,6 +1,8 @@
 package com.example.iancu.asosclothes;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.example.iancu.asosclothes.statics.TempItem;
 import com.example.iancu.asosclothes.utils.ClickListener;
@@ -24,11 +27,15 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
     private List<TempItem> itemList;
     private int rowLayout;
     private Context context;
+    FragmentManager fragManager;
 
-    public ContentAdapter(List<TempItem> itemList, int rowLayout, Context contxt){
+    public ContentAdapter(List<TempItem> itemList, int rowLayout, Context contxt,FragmentManager frag){
         this.itemList = itemList;
         this.rowLayout=rowLayout;
         this.context=contxt;
+        fragManager=frag;
+
+
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,13 +54,18 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
             @Override
             public void OnClick(View view, int position, boolean isLongClick) {
                 Toast.makeText(context, "#" + position + " - " + item.title, Toast.LENGTH_SHORT).show();
+                ItemFragment fragment = new ItemFragment();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
+                fragmentTransaction.replace(R.id.frame,fragment);
+                fragmentTransaction.commit();
+
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return itemList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{

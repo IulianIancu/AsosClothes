@@ -18,18 +18,18 @@ public class ConnectionService {
     private static Retrofit retrofit = null;
     private static OkHttpClient okHttpClient;
 
-    public static Itunes_API getConnectionService(){
+    public static Asos_API getConnectionService(){
         okHttpClient = buildClient();
 
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL2)
+                    .baseUrl(Constants.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .client(okHttpClient)
                     .build();
         }
-        return retrofit.create(Itunes_API.class);
+        return retrofit.create(Asos_API.class);
     }
 
     public static OkHttpClient buildClient() {

@@ -19,7 +19,7 @@ public class ItemCollection {
     @Expose
     private Integer itemCount;
     @Expose
-    private List<Listing> listings = new ArrayList<Listing>();
+    private List<ItemListing> itemListings = new ArrayList<ItemListing>();
     @Expose
     private String redirectUrl;
     @Expose
@@ -100,19 +100,19 @@ public class ItemCollection {
     /**
      *
      * @return
-     * The listings
+     * The itemListings
      */
-    public List<Listing> getListings() {
-        return listings;
+    public List<ItemListing> getItemListings() {
+        return itemListings;
     }
 
     /**
      *
-     * @param listings
+     * @param itemListings
      * The Listings
      */
-    public void setListings(List<Listing> listings) {
-        this.listings = listings;
+    public void setItemListings(List<ItemListing> itemListings) {
+        this.itemListings = itemListings;
     }
 
     /**

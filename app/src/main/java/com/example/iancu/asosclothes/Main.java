@@ -3,9 +3,6 @@ package com.example.iancu.asosclothes;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,9 +17,9 @@ import android.widget.Toast;
 
 import com.example.iancu.asosclothes.connection.ConnectionService;
 import com.example.iancu.asosclothes.models.Categories;
-import com.example.iancu.asosclothes.models.CategoryListing;
-import com.example.iancu.asosclothes.models.ItemCollection;
 import com.example.iancu.asosclothes.models.Listing;
+import com.example.iancu.asosclothes.models.ItemCollection;
+import com.example.iancu.asosclothes.models.ItemListing;
 import com.example.iancu.asosclothes.models.ResultModel;
 import com.example.iancu.asosclothes.models.ResultSetModel;
 import com.example.iancu.asosclothes.services.observable.Asos_API;
@@ -30,8 +27,6 @@ import com.example.iancu.asosclothes.services.observable.Itunes_API;
 import com.example.iancu.asosclothes.statics.TempCategories;
 import com.example.iancu.asosclothes.utils.RxUtils;
 
-import java.security.acl.Group;
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observer;
@@ -54,16 +49,21 @@ public class Main extends AppCompatActivity
         super.onCreate(savedInstanceState);
         initBaseDisplay();
 
-//        getCategsFromServer();
+        getCategsFromServer();
 //        getItemsFromServer();
 //        testItunes();
 
-        addStatics();
+//        addStatics();
         ContentFragment fragment = new ContentFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,fragment);
         fragmentTransaction.commit();
 
+
+//        ItemFragment fragment = new ItemFragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.frame,fragment);
+//        fragmentTransaction.commit();
 
 
     }
@@ -113,8 +113,7 @@ public class Main extends AppCompatActivity
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,fragment);
         fragmentTransaction.commit();
-        SwipeRefreshLayout refreshLayout =(SwipeRefreshLayout) findViewById(R.id.refresh) ;
-        refreshLayout.setRefreshing(false);
+
 
 
 
@@ -171,7 +170,7 @@ public class Main extends AppCompatActivity
     }
 
     public void getCategsFromServer(){
-//        api = ConnectionService.getConnectionService();
+        api = ConnectionService.getConnectionService();
         subscription.add(api.getCategories()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -191,9 +190,9 @@ public class Main extends AppCompatActivity
                     public void onNext(Categories categories) {
                         Log.e("HEEE: ",""+categories.getDescription());
                         Log.e("HEEE: ",""+categories.getSortType());
-                        ArrayList<CategoryListing> list = categories.getListing();
+                        List<Categories.Listing> list = categories.getListing();
                         Log.e("HEEE: ",""+list.size());
-                        for (CategoryListing c:list
+                        for (Categories.Listing c:list
                              ) {
 
                             menu.add(c.getName());
@@ -217,7 +216,7 @@ public class Main extends AppCompatActivity
         subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
     }
     public void getItemsFromServer(){
-//        api = ConnectionService.getConnectionService();
+        api = ConnectionService.getConnectionService();
         subscription.add(api.getColection()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -236,10 +235,10 @@ public class Main extends AppCompatActivity
                     @Override
                     public void onNext(ItemCollection colection) {
                         Log.e("HEEE: ",""+colection.getItemCount());
-                        Log.e("HEEE: ",""+colection.getListings().size());
-                        List<Listing> list = colection.getListings();
+                        Log.e("HEEE: ",""+colection.getItemListings().size());
+                        List<ItemListing> list = colection.getItemListings();
                         Log.e("HEEE: ",""+list.size());
-                        for (Listing c:list
+                        for (ItemListing c:list
                                 ) {
 
                             menu.add(c.getTitle());
@@ -252,7 +251,7 @@ public class Main extends AppCompatActivity
 
     }
     public void testItunes(){
-        testAPI = ConnectionService.getConnectionService();
+//        testAPI = ConnectionService.getConnectionService();
         subscription.add(testAPI.getClassic()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -294,4 +293,6 @@ public class Main extends AppCompatActivity
         }
 
     }
+
+
 }

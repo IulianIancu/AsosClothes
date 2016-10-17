@@ -2,212 +2,69 @@ package com.example.iancu.asosclothes.models;
 
 import com.google.gson.annotations.Expose;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by Iancu on 17/10/2016.
+ * Created by Iancu on 16/10/2016.
  */
 
 public class Listing {
     @Expose
-    private Double basePrice;
+    private String categoryId;
     @Expose
-    private String brand;
+    private String name;
     @Expose
-    private String currentPrice;
-    @Expose
-    private Boolean hasMoreColours;
-    @Expose
-    private Boolean isInSet;
-    @Expose
-    private String previousPrice;
-    @Expose
-    private Integer productId;
-    @Expose
-    private List<String> productImageUrl = new ArrayList<String>();
-    @Expose
-    private String rRP;
-    @Expose
-    private String title;
+    private Integer productCount;
 
     /**
      *
      * @return
-     * The basePrice
+     * The categoryId
      */
-    public Double getBasePrice() {
-        return basePrice;
+    public String getCategoryId() {
+        return categoryId;
     }
 
     /**
      *
-     * @param basePrice
-     * The BasePrice
+     * @param categoryId
+     * The CategoryId
      */
-    public void setBasePrice(Double basePrice) {
-        this.basePrice = basePrice;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     /**
      *
      * @return
-     * The brand
+     * The name
      */
-    public String getBrand() {
-        return brand;
+    public String getName() {
+        return name;
     }
 
     /**
      *
-     * @param brand
-     * The Brand
+     * @param name
+     * The Name
      */
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    /**
-     *
-     * @return
-     * The currentPrice
-     */
-    public String getCurrentPrice() {
-        return currentPrice;
-    }
-
-    /**
-     *
-     * @param currentPrice
-     * The CurrentPrice
-     */
-    public void setCurrentPrice(String currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
      *
      * @return
-     * The hasMoreColours
+     * The productCount
      */
-    public Boolean getHasMoreColours() {
-        return hasMoreColours;
+    public Integer getProductCount() {
+        return productCount;
     }
 
     /**
      *
-     * @param hasMoreColours
-     * The HasMoreColours
+     * @param productCount
+     * The ProductCount
      */
-    public void setHasMoreColours(Boolean hasMoreColours) {
-        this.hasMoreColours = hasMoreColours;
-    }
-
-    /**
-     *
-     * @return
-     * The isInSet
-     */
-    public Boolean getIsInSet() {
-        return isInSet;
-    }
-
-    /**
-     *
-     * @param isInSet
-     * The IsInSet
-     */
-    public void setIsInSet(Boolean isInSet) {
-        this.isInSet = isInSet;
-    }
-
-    /**
-     *
-     * @return
-     * The previousPrice
-     */
-    public String getPreviousPrice() {
-        return previousPrice;
-    }
-
-    /**
-     *
-     * @param previousPrice
-     * The PreviousPrice
-     */
-    public void setPreviousPrice(String previousPrice) {
-        this.previousPrice = previousPrice;
-    }
-
-    /**
-     *
-     * @return
-     * The productId
-     */
-    public Integer getProductId() {
-        return productId;
-    }
-
-    /**
-     *
-     * @param productId
-     * The ProductId
-     */
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    /**
-     *
-     * @return
-     * The productImageUrl
-     */
-    public List<String> getProductImageUrl() {
-        return productImageUrl;
-    }
-
-    /**
-     *
-     * @param productImageUrl
-     * The ProductImageUrl
-     */
-    public void setProductImageUrl(List<String> productImageUrl) {
-        this.productImageUrl = productImageUrl;
-    }
-
-    /**
-     *
-     * @return
-     * The rRP
-     */
-    public String getRRP() {
-        return rRP;
-    }
-
-    /**
-     *
-     * @param rRP
-     * The RRP
-     */
-    public void setRRP(String rRP) {
-        this.rRP = rRP;
-    }
-
-    /**
-     *
-     * @return
-     * The title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     *
-     * @param title
-     * The Title
-     */
-    public void setTitle(String title) {
-        this.title = title;
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
     }
 }
