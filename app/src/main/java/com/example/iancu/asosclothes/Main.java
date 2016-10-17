@@ -3,6 +3,7 @@ package com.example.iancu.asosclothes;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ import com.example.iancu.asosclothes.models.ResultModel;
 import com.example.iancu.asosclothes.models.ResultSetModel;
 import com.example.iancu.asosclothes.services.observable.Asos_API;
 import com.example.iancu.asosclothes.services.observable.Itunes_API;
+import com.example.iancu.asosclothes.statics.TempCategories;
 import com.example.iancu.asosclothes.utils.RxUtils;
 
 import java.security.acl.Group;
@@ -54,7 +56,9 @@ public class Main extends AppCompatActivity
 
 //        getCategsFromServer();
 //        getItemsFromServer();
-        testItunes();
+//        testItunes();
+
+        addStatics();
         ContentFragment fragment = new ContentFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,fragment);
@@ -104,25 +108,35 @@ public class Main extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (item.getTitle() =="Nothing")Toast.makeText(getBaseContext(), "@(O_O)@",Toast.LENGTH_SHORT).show();
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            Toast.makeText(getBaseContext(), "Boop",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_gallery) {
-            Toast.makeText(getBaseContext(), "Beep",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_slideshow) {
-            Toast.makeText(getBaseContext(), "Bloop",Toast.LENGTH_SHORT).show();
+//        Changed my mind, whatever button happens, go to the items
+        ContentFragment fragment = new ContentFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame,fragment);
+        fragmentTransaction.commit();
+        SwipeRefreshLayout refreshLayout =(SwipeRefreshLayout) findViewById(R.id.refresh) ;
+        refreshLayout.setRefreshing(false);
 
-        } else if (id == R.id.nav_manage) {
-            Toast.makeText(getBaseContext(), "Bleep",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_share) {
-            Toast.makeText(getBaseContext(), "FWOOOSH",Toast.LENGTH_SHORT).show();
-        } else if (id == R.id.nav_send) {
-            Toast.makeText(getBaseContext(), "EEEEEYYY LMAO",Toast.LENGTH_SHORT).show();
 
-        }
+
+//        // Handle navigation view item clicks here.
+//        int id = item.getItemId();
+//        if (item.getTitle() =="Nothing")Toast.makeText(getBaseContext(), "@(O_O)@",Toast.LENGTH_SHORT).show();
+//        if (id == R.id.nav_camera) {
+//            // Handle the camera action
+//            Toast.makeText(getBaseContext(), "Boop",Toast.LENGTH_SHORT).show();
+//        } else if (id == R.id.nav_gallery) {
+//            Toast.makeText(getBaseContext(), "Beep",Toast.LENGTH_SHORT).show();
+//        } else if (id == R.id.nav_slideshow) {
+//            Toast.makeText(getBaseContext(), "Bloop",Toast.LENGTH_SHORT).show();
+//
+//        } else if (id == R.id.nav_manage) {
+//            Toast.makeText(getBaseContext(), "Bleep",Toast.LENGTH_SHORT).show();
+//        } else if (id == R.id.nav_share) {
+//            Toast.makeText(getBaseContext(), "FWOOOSH",Toast.LENGTH_SHORT).show();
+//        } else if (id == R.id.nav_send) {
+//            Toast.makeText(getBaseContext(), "EEEEEYYY LMAO",Toast.LENGTH_SHORT).show();
+//
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -139,7 +153,7 @@ public class Main extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Posting nudes on Facebook", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Emails are too expensive", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -270,6 +284,14 @@ public class Main extends AppCompatActivity
 
                     }
                 }));
+
+    }
+    public void addStatics(){
+        TempCategories temp = new TempCategories();
+        for (String s:temp.categories
+             ) {
+            menu.add(s);
+        }
 
     }
 }
