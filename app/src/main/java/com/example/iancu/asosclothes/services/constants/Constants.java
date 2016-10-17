@@ -6,4 +6,5 @@ package com.example.iancu.asosclothes.services.constants;
 
 public class Constants {
     public static final String BASE_URL ="https://dl.dropboxusercontent.com/";
+    public static final String BASE_URL2 ="https://itunes.apple.com/";
 }

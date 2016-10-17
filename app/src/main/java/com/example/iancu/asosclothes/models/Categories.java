@@ -16,7 +16,7 @@ public class Categories {
     private String description;
 
     @Expose
-    private List<CategoryListing> listing = new ArrayList<CategoryListing>();
+    private ArrayList<CategoryListing> listing = new ArrayList<>();
     @Expose
     private String sortType;
 
@@ -43,7 +43,7 @@ public class Categories {
      * @return
      * The listing
      */
-    public List<CategoryListing> getListing() {
+    public ArrayList<CategoryListing> getListing() {
         return listing;
     }
 
@@ -52,7 +52,7 @@ public class Categories {
      * @param listing
      * The Listing
      */
-    public void setListing(List<CategoryListing> listing) {
+    public void setListing(ArrayList<CategoryListing> listing) {
         this.listing = listing;
     }
 

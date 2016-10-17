@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,46 +17,51 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.iancu.asosclothes.connection.ConnectionService;
+import com.example.iancu.asosclothes.models.Categories;
+import com.example.iancu.asosclothes.models.CategoryListing;
+import com.example.iancu.asosclothes.models.ItemCollection;
+import com.example.iancu.asosclothes.models.Listing;
+import com.example.iancu.asosclothes.models.ResultModel;
+import com.example.iancu.asosclothes.models.ResultSetModel;
+import com.example.iancu.asosclothes.services.observable.Asos_API;
+import com.example.iancu.asosclothes.services.observable.Itunes_API;
+import com.example.iancu.asosclothes.utils.RxUtils;
+
 import java.security.acl.Group;
+import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class Main extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Toolbar toolbar;
+    Menu menu;
+    NavigationView navigationView;
+    private Asos_API api;
+    private Itunes_API testAPI;
+    private CompositeSubscription subscription = new CompositeSubscription();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_side);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initBaseDisplay();
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Posting nudes on Facebook", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
-        menu.clear();
-        menu.add("Nothing");
+//        getCategsFromServer();
+//        getItemsFromServer();
+        testItunes();
         ContentFragment fragment = new ContentFragment();
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,fragment);
         fragmentTransaction.commit();
-        navigationView.setNavigationItemSelectedListener(this);
+
+
+
     }
 
     @Override
@@ -121,5 +127,149 @@ public class Main extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    public void initBaseDisplay(){
+        setContentView(R.layout.activity_side);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Posting nudes on Facebook", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        menu = navigationView.getMenu();
+        menu.clear();
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    public void getCategsFromServer(){
+//        api = ConnectionService.getConnectionService();
+        subscription.add(api.getCategories()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Categories>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Error: ",e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(Categories categories) {
+                        Log.e("HEEE: ",""+categories.getDescription());
+                        Log.e("HEEE: ",""+categories.getSortType());
+                        ArrayList<CategoryListing> list = categories.getListing();
+                        Log.e("HEEE: ",""+list.size());
+                        for (CategoryListing c:list
+                             ) {
+
+                            menu.add(c.getName());
+
+                        }
+
+
+                    }
+                }));
+    }
+
+    @Override
+    protected void onDestroy() {
+        subscription.unsubscribe();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
+    }
+    public void getItemsFromServer(){
+//        api = ConnectionService.getConnectionService();
+        subscription.add(api.getColection()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ItemCollection>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Error: ",e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(ItemCollection colection) {
+                        Log.e("HEEE: ",""+colection.getItemCount());
+                        Log.e("HEEE: ",""+colection.getListings().size());
+                        List<Listing> list = colection.getListings();
+                        Log.e("HEEE: ",""+list.size());
+                        for (Listing c:list
+                                ) {
+
+                            menu.add(c.getTitle());
+
+                        }
+
+
+                    }
+                }));
+
+    }
+    public void testItunes(){
+        testAPI = ConnectionService.getConnectionService();
+        subscription.add(testAPI.getClassic()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ResultSetModel>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("Error: ",e.toString());
+
+                    }
+
+                    @Override
+                    public void onNext(ResultSetModel resultSetModel) {
+                        Log.e("HEEE: ",""+resultSetModel.getResultCount());
+                        Log.e("HEEE: ",""+resultSetModel.getResults().size());
+                        List<ResultModel> list = resultSetModel.getResults();
+                        Log.e("HEEE: ",""+list.size());
+                        for (ResultModel c:list
+                                ) {
+                            Log.e("HEEE: ",""+c.getTrackName());
+                            menu.add(c.getTrackName());
+
+                        }
+
+
+                    }
+                }));
+
     }
 }
