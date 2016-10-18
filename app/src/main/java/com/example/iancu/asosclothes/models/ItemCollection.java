@@ -1,6 +1,7 @@
 package com.example.iancu.asosclothes.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +11,25 @@ import java.util.List;
  */
 
 public class ItemCollection {
+    @SerializedName("AlsoSearched")
     @Expose
     private List<Object> alsoSearched = new ArrayList<Object>();
+    @SerializedName("Description")
     @Expose
     private String description;
+    @SerializedName("Facets")
     @Expose
     private List<Facet> facets = new ArrayList<Facet>();
+    @SerializedName("ItemCount")
     @Expose
     private Integer itemCount;
+    @SerializedName("Listings")
     @Expose
     private List<ItemListing> itemListings = new ArrayList<ItemListing>();
+    @SerializedName("RedirectUrl")
     @Expose
     private String redirectUrl;
+    @SerializedName("SortType")
     @Expose
     private String sortType;
 

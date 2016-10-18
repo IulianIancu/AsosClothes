@@ -1,6 +1,7 @@
 package com.example.iancu.asosclothes.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,15 +13,19 @@ import java.util.List;
 public class Facet {
     // THIS IS PRACTICALLY USELESS BUT IT IS NECESSARY
 
+
+    @SerializedName("FacetValues")
     @Expose
     private List<FacetValue> facetValues = new ArrayList<FacetValue>();
+    @SerializedName("Id")
     @Expose
     private String id;
+    @SerializedName("Name")
     @Expose
     private String name;
+    @SerializedName("Sequence")
     @Expose
     private Integer sequence;
-
     /**
      *
      * @return

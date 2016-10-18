@@ -4,6 +4,8 @@ import com.example.iancu.asosclothes.models.Categories;
 import com.example.iancu.asosclothes.models.ItemCollection;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -14,6 +16,8 @@ public interface Asos_API {
     @GET("u/1559445/ASOS/SampleApi/cats_men.json")
     Observable<Categories> getCategories();
 
-    @GET("u/1559445/ASOS/SampleApi/anycat_products.json?catid= catalog01_1001_7618")
-    Observable<ItemCollection> getColection();
+    @GET("u/1559445/ASOS/SampleApi/anycat_products.json")
+    Observable<ItemCollection> getColection(@Query("catid") String id);
+
+
 }

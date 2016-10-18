@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.iancu.asosclothes.models.ItemListing;
 import com.example.iancu.asosclothes.statics.TempItem;
 import com.example.iancu.asosclothes.utils.ClickListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,12 +27,12 @@ import java.util.List;
 
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHolder> {
 
-    private List<TempItem> itemList;
+    private List<ItemListing> itemList;
     private int rowLayout;
     private Context context;
     FragmentManager fragManager;
 
-    public ContentAdapter(List<TempItem> itemList, int rowLayout, Context contxt,FragmentManager frag){
+    public ContentAdapter(List<ItemListing> itemList, int rowLayout, Context contxt,FragmentManager frag){
         this.itemList = itemList;
         this.rowLayout=rowLayout;
         this.context=contxt;
@@ -45,15 +48,15 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final TempItem item = itemList.get(position);
-        holder.itemName.setText(item.title);
-        holder.itemPrice.setText(item.price);
-        Picasso.with(context).load(item.img)
+        final ItemListing item = itemList.get(position);
+        holder.itemName.setText(item.getTitle());
+        holder.itemPrice.setText(item.getCurrentPrice());
+        Picasso.with(context).load(item.getProductImageUrl().get(0))
                 .into(holder.img);
         holder.setClickListener(new ClickListener() {
             @Override
             public void OnClick(View view, int position, boolean isLongClick) {
-                Toast.makeText(context, "#" + position + " - " + item.title, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "#" + position + " - " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 ItemFragment fragment = new ItemFragment();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = fragManager.beginTransaction();
                 fragmentTransaction.replace(R.id.frame,fragment);
@@ -65,7 +68,13 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        try{
+            return itemList.size();
+        }
+        catch (Exception e){
+            Log.e("ERROR", e.toString());
+            return 0;
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener{

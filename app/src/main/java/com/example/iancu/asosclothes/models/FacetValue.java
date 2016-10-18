@@ -1,6 +1,7 @@
 package com.example.iancu.asosclothes.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Iancu on 17/10/2016.
@@ -8,10 +9,13 @@ import com.google.gson.annotations.Expose;
 
 public class FacetValue {
     // THIS IS PRACTICALLY USELESS BUT IT IS NECESSARY
+    @SerializedName("Count")
     @Expose
     private Integer count;
+    @SerializedName("Id")
     @Expose
     private String id;
+    @SerializedName("Name")
     @Expose
     private String name;
 

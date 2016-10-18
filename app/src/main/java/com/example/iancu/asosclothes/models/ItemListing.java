@@ -1,6 +1,7 @@
 package com.example.iancu.asosclothes.models;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,24 +11,34 @@ import java.util.List;
  */
 
 public class ItemListing {
+    @SerializedName("BasePrice")
     @Expose
     private Double basePrice;
+    @SerializedName("Brand")
     @Expose
     private String brand;
+    @SerializedName("CurrentPrice")
     @Expose
     private String currentPrice;
+    @SerializedName("HasMoreColours")
     @Expose
     private Boolean hasMoreColours;
+    @SerializedName("IsInSet")
     @Expose
     private Boolean isInSet;
+    @SerializedName("PreviousPrice")
     @Expose
     private String previousPrice;
+    @SerializedName("ProductId")
     @Expose
     private Integer productId;
+    @SerializedName("ProductImageUrl")
     @Expose
     private List<String> productImageUrl = new ArrayList<String>();
+    @SerializedName("RRP")
     @Expose
     private String rRP;
+    @SerializedName("Title")
     @Expose
     private String title;
 

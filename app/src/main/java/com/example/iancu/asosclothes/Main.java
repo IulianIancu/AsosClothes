@@ -54,10 +54,10 @@ public class Main extends AppCompatActivity
 //        testItunes();
 
 //        addStatics();
-        ContentFragment fragment = new ContentFragment();
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame,fragment);
-        fragmentTransaction.commit();
+//        ContentFragment fragment = new ContentFragment();
+//        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.replace(R.id.frame,fragment);
+//        fragmentTransaction.commit();
 
 
 //        ItemFragment fragment = new ItemFragment();
@@ -110,6 +110,10 @@ public class Main extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
 //        Changed my mind, whatever button happens, go to the items
         ContentFragment fragment = new ContentFragment();
+        Bundle bundle =new Bundle();
+        bundle.clear();
+        bundle.putString("categoryID",item.getTitle().toString());
+        fragment.setArguments(bundle);
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame,fragment);
         fragmentTransaction.commit();
@@ -216,38 +220,38 @@ public class Main extends AppCompatActivity
         subscription = RxUtils.getNewCompositeSubIfUnsubscribed(subscription);
     }
     public void getItemsFromServer(){
-        api = ConnectionService.getConnectionService();
-        subscription.add(api.getColection()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ItemCollection>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("Error: ",e.toString());
-
-                    }
-
-                    @Override
-                    public void onNext(ItemCollection colection) {
-                        Log.e("HEEE: ",""+colection.getItemCount());
-                        Log.e("HEEE: ",""+colection.getItemListings().size());
-                        List<ItemListing> list = colection.getItemListings();
-                        Log.e("HEEE: ",""+list.size());
-                        for (ItemListing c:list
-                                ) {
-
-                            menu.add(c.getTitle());
-
-                        }
-
-
-                    }
-                }));
+//        api = ConnectionService.getConnectionService();
+//        subscription.add(api.getColection()
+//                .subscribeOn(Schedulers.newThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<ItemCollection>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e("Error: ",e.toString());
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(ItemCollection colection) {
+//                        Log.e("HEEE: ",""+colection.getItemCount());
+//                        Log.e("HEEE: ",""+colection.getItemListings().size());
+//                        List<ItemListing> list = colection.getItemListings();
+//                        Log.e("HEEE: ",""+list.size());
+//                        for (ItemListing c:list
+//                                ) {
+//
+//                            menu.add(c.getTitle());
+//
+//                        }
+//
+//
+//                    }
+//                }));
 
     }
     public void testItunes(){
